@@ -1,30 +1,26 @@
-import pytest
+import sys
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.utils import ChromeType
-from selenium import webdriver
 
 
-@pytest.fixture()
-def setup(request):
-    driver = webdriver.Chrome(options=options, service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
+CHROMEDRIVER_PATH = '/usr/local/bin/chromedriver'
+s = Service(CHROMEDRIVER_PATH)
+WINDOW_SIZE = "1920,1080"
+# Options
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=%s" % WINDOW_SIZE)
+chrome_options.add_argument('--no-sandbox')
+from time import sleep
 
-    chrome_options = Options()
-    options = [
-    "--headless",
-    "--disable-gpu",
-    "--window-size=1920,1200",
-    "--ignore-certificate-errors",
-    "--disable-extensions",
-    "--no-sandbox",
-    "--disable-dev-shm-usage"
-]
-    for option in options:
-        chrome_options.add_argument(option)
-
-    request.cls.driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
-
-
-    yield request.cls.driver
-    request.cls.driver.close()
+if sys.platform == 'win32':
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+if sys.platform == 'linux':
+    driver = driver = webdriver.Chrome(service=s, options=chrome_options)
+    driver.maximize_window()
+# Get the response and print title
+driver.get("https://www.python.org")
+print(driver.title)
+driver.close()

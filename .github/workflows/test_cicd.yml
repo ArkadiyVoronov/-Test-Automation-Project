@@ -1,0 +1,9 @@
+- name: SeleniumCICD
+  # You may pin to the exact commit or the version.
+  # uses: nakajiss/DockerSeleniumAction@1d295933bf3868fd4b462113d32a605ae964328b
+  uses: nakajiss/DockerSeleniumAction@v1.2
+  with:
+    # python test plan to execute
+    test-plan-path: 
+    # Optional arguments.
+    args: # optional

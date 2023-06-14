@@ -8,7 +8,7 @@ from selenium import webdriver
 
 @pytest.fixture()
 def setup(request):
-    chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+    driver = webdriver.Chrome(options=options, service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
 
     chrome_options = Options()
     options = [
